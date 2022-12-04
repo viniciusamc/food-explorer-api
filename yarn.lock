@@ -434,6 +434,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"express-async-errors@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "express-async-errors@npm:3.1.1"
+  peerDependencies:
+    express: ^4.16.2
+  checksum: 3a2a6df8ea957185df401a239189d617715c38fba13fac8ced7750b25fa95b0ae656e5d1385d12d0e4dcd7997e90d070b218e86abcf8e68bb6048830b53ba668
+  languageName: node
+  linkType: hard
+
 "express@npm:^4.18.2":
   version: 4.18.2
   resolution: "express@npm:4.18.2"
@@ -502,6 +511,7 @@ __metadata:
   resolution: "food-explorer-api@workspace:."
   dependencies:
     express: ^4.18.2
+    express-async-errors: ^3.1.1
     nodemon: ^2.0.20
   languageName: unknown
   linkType: soft
