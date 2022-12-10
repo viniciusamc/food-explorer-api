@@ -11,7 +11,7 @@ app.use(express.json())
 
 app.use(routes)
 
-database();
+database()
 
 app.use((error, request, response, next) => {
   if (error instanceof AppError) {
