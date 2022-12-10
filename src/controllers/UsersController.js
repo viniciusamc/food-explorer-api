@@ -7,7 +7,7 @@ class UserController{
     if(!name || !email || !password){
       throw new AppError("Preencha todas as caixas corretamente");
     }
-
+    
     res.status(201).json({name, email, password}) 
   }
 }
