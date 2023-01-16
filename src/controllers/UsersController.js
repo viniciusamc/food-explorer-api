@@ -2,8 +2,6 @@ const AppError = require("../utils/AppError");
 const sqliteConnection = require("../database/sqlite")
 const bcrypt = require('bcrypt');
 
-
-
 class UserController{
   async create(req, res){
     const { name, email, password } = req.body;
@@ -42,6 +40,12 @@ class UserController{
     )
     
     res.status(201).json({name, email, password, hash}) 
+  }
+
+  async update(req, res){
+    const { name, email, password } = req.body;
+
+    res.status(201).json({name, email, password})
   }
 }
 
