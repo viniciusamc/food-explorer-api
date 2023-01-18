@@ -7,6 +7,12 @@ const UserController = require("../controllers/UsersController");
 const userController = new UserController();
 
 function myMiddleware(req, res, next){
+  const { admin } = req.body;
+  if(admin){
+    console.log("admin");
+  } else {
+    console.log("user");
+  }
   next()
 }
 
