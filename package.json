@@ -2,7 +2,8 @@
   "name": "food-explorer-api",
   "packageManager": "yarn@3.3.0",
   "scripts": {
-    "start": "nodemon ./src/server.js"
+    "start": "nodemon ./src/server.js",
+    "migrate": "knex migrate:latest"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
@@ -11,6 +12,7 @@
     "bcrypt": "^5.1.0",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "knex": "^2.4.1",
     "sqlite": "^4.1.2",
     "sqlite3": "^5.1.2"
   }
