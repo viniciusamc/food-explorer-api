@@ -4,12 +4,12 @@ const mealsRoutes = Router();
 
 const MealsController = require("../controllers/MealsController");
 
-const mealsController = new MealsController();
+const mealController = new MealsController();
 
 function myMiddleware(req, res, next){
   next()
 }
 
-usersRoutes.post("/", myMiddleware ,mealsController.create)  
+mealsRoutes.post("/", myMiddleware ,mealController.create)  
 
-module.exports = usersRoutes;
+module.exports = mealsRoutes;
