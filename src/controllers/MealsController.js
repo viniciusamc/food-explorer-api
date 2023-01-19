@@ -15,7 +15,7 @@ class MealsController {
     }
 
     if(!priceVerify.test(price)){
-      throw new AppError("Apenas números no preço!");
+      throw new AppError("Apenas números no preço!")
     }
 
     const checkMeal = await database.get("SELECT * FROM foods WHERE name = (?)", [name])
