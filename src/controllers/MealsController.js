@@ -1,5 +1,6 @@
 const AppError = require("../utils/AppError");
 const sqliteConnection = require("../database/sqlite")
+const knex = require("../database/knex")
 
 class MealsController {
   async create(req,res){
@@ -27,6 +28,38 @@ class MealsController {
     [name, desc, price, picture, ingredients])
 
     res.status(201).json({name, desc, price, picture, ingredients})
+  }
+
+  async get(req, res){
+    const { id } = req.params
+
+    const database = await sqliteConnection();
+
+    const list = await database.get("SELECT * FROM foods WHERE id = (?)", [id])
+    
+    res.status(201).json({
+      list
+    })
+  }
+
+  async delete(req, res){
+    const { id } = req.params;
+    
+    const { confirmDelete } = req.body;
+    
+    const database = await sqliteConnection();
+
+    if(!confirmDelete) {
+      throw new AppError("Confirme primeiro!")
+    }
+
+    const responseDelete = await database.run("DELETE FROM foods WHERE id = (?)", [id])
+
+    if(responseDelete){
+      res.status(200).json(responseDelete)
+    } else {
+      res.status(404).json(responseDelete)
+    }
   }
 }
 
