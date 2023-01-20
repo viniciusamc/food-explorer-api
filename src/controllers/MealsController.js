@@ -24,7 +24,7 @@ class MealsController {
       throw new AppError("Prato já existente.");
     }
 
-    await database.run("INSERT INTO foods (name, desc, price, picture, ingredients) VALUES (?,?,?,?,?)", 
+    await database.run("INSERT INTO meals (name, desc, price, picture, ingredients) VALUES (?,?,?,?,?)", 
     [name, desc, price, picture, ingredients])
 
     res.status(201).json({name, desc, price, picture, ingredients})
@@ -35,7 +35,7 @@ class MealsController {
 
     const database = await sqliteConnection();
 
-    const list = await database.get("SELECT * FROM foods WHERE id = (?)", [id])
+    const list = await database.get("SELECT * FROM meals WHERE id = (?)", [id])
     
     res.status(201).json({
       list
@@ -53,7 +53,7 @@ class MealsController {
       throw new AppError("Confirme primeiro!")
     }
 
-    const responseDelete = await database.run("DELETE FROM foods WHERE id = (?)", [id])
+    const responseDelete = await database.run("DELETE FROM meals WHERE id = (?)", [id])
 
     if(responseDelete){
       res.status(200).json(responseDelete)
