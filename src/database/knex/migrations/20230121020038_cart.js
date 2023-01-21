@@ -1,4 +1,4 @@
-exports.up = knex => knex.schema.createTable("meals", table => {
+exports.up = knex => knex.schema.createTable("cart", table => {
   table.increments("id");
   table.text("name");
   table.text("desc");
@@ -7,4 +7,4 @@ exports.up = knex => knex.schema.createTable("meals", table => {
   table.boolean("ingredients");
 });
 
-exports.down = knex => knex.schema.dropTable("meals");
+exports.down = knex => knex.schema.dropTable("cart");
