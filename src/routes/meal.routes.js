@@ -13,5 +13,7 @@ function myMiddleware(req, res, next){
 mealsRoutes.post("/", myMiddleware, mealController.create)  
 mealsRoutes.get("/:id", myMiddleware, mealController.get)  
 mealsRoutes.delete("/:id", myMiddleware, mealController.delete)  
+mealsRoutes.get("/list", myMiddleware, mealController.index)  
+
 
 module.exports = mealsRoutes;
