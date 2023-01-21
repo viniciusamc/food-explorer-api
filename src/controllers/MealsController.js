@@ -61,6 +61,12 @@ class MealsController {
       res.status(404).json(responseDelete)
     }
   }
+
+  async index(req, res)
+  {
+    const database = await sqliteConnection();
+    const meals = await database.get("SELECT * FROM meals")
+  }
 }
 
 module.exports = MealsController;
