@@ -3,7 +3,8 @@ const sqliteConnection = require("../database/sqlite")
 const knex = require("../database/knex")
 
 class MealsController {
-  async create(req,res){
+  async create(req,res)
+  {
     const { name, desc, price, picture, ingredients } = req.body
 
     const priceVerify = new RegExp('^[0-9]+$');
@@ -18,7 +19,7 @@ class MealsController {
       throw new AppError("Apenas números no preço!")
     }
 
-    const checkMeal = await database.get("SELECT * FROM foods WHERE name = (?)", [name])
+    const checkMeal = await database.get("SELECT * FROM meals WHERE name = (?)", [name])
 
     if(checkMeal) {
       throw new AppError("Prato já existente.");
