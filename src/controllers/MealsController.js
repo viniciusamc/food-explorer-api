@@ -8,8 +8,6 @@ class MealsController {
 
     const priceVerify = new RegExp("^[0-9]+$");
 
-    const database = await sqliteConnection();
-
     if (!name || !desc || !price || !picture || !ingredients) {
       throw new AppError("Preencha todos os campos corretamente");
     }
@@ -18,19 +16,19 @@ class MealsController {
       throw new AppError("Apenas números no preço!");
     }
 
-    const checkMeal = await database.get(
-      "SELECT * FROM meals WHERE name = (?)",
-      [name]
-    );
+    const checkMeal = await knex("meals").where("name", name).first();
 
     if (checkMeal) {
       throw new AppError("Prato já existente.");
     }
 
-    await database.run(
-      "INSERT INTO meals (name, desc, price, picture, ingredients) VALUES (?,?,?,?,?)",
-      [name, desc, price, picture, ingredients]
-    );
+    await knex("meals").insert({
+      name,
+      desc,
+      price,
+      picture,
+      ingredients,
+    });
 
     res.status(201).json({ name, desc, price, picture, ingredients });
   }
@@ -38,9 +36,7 @@ class MealsController {
   async get(req, res) {
     const { id } = req.params;
 
-    const database = await sqliteConnection();
-
-    const list = await database.get("SELECT * FROM meals WHERE id = (?)", [id]);
+    const list = await knex("meals").where("id", id);
 
     res.status(201).json({
       list,
@@ -52,28 +48,24 @@ class MealsController {
 
     const { confirmDelete } = req.body;
 
-    const database = await sqliteConnection();
-
     if (!confirmDelete) {
       throw new AppError("Confirme primeiro!");
     }
 
-    const getIdMeal = await database.get(
-      "SELECT * FROM meals WHERE id = (?)",
-      id
-    );
+    const getIdMeal = await knex("meals").where("id", id).first();
 
     if (!getIdMeal) {
       throw new AppError("Prato não existe!");
     }
 
-    await database.run("DELETE FROM meals WHERE id = (?)", [id]);
+    await knex("meals").where("id", id).first().delete();
 
-    return res.status(200);
+    res.status(200).json("Deletado com sucesso!");
   }
 
   async index(req, res) {
     const database = await sqliteConnection();
+
     const meals = await database.get("SELECT * FROM meals");
     res.status(200).json({ meals });
   }
