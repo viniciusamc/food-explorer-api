@@ -64,9 +64,8 @@ class MealsController {
   }
 
   async index(req, res) {
-    const database = await sqliteConnection();
+    // const database = await sqliteConnection();
 
-    const meals = await database.get("SELECT * FROM meals");
     res.status(200).json({ meals });
   }
 }
