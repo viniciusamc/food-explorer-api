@@ -64,9 +64,9 @@ class MealsController {
   }
 
   async index(req, res) {
-    // const database = await sqliteConnection();
+    const getIndex = await knex.select("*").from("meals");
 
-    res.status(200).json({ meals });
+    res.status(200).json({ getIndex });
   }
 }
 
