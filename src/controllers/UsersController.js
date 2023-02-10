@@ -32,7 +32,7 @@ class UserController {
       throw new AppError("A senha deve ter no mínimo 6 caracteres.");
     }
 
-    const passwordHash = bcrypt.hashSync(password, 10);
+    const passwordHash = bcrypt.hashSync(password, 12);
 
     if (!emailVerify.test(email)) {
       throw new AppError("Endereço de e-mail inválido");
