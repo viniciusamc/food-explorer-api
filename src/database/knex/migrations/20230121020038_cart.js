@@ -1,10 +1,8 @@
-exports.up = knex => knex.schema.createTable("cart", table => {
-  table.increments("id");
-  table.text("name");
-  table.text("desc");
-  table.text("price");
-  table.text("picture");
-  table.boolean("ingredients");
-});
+exports.up = (knex) =>
+  knex.schema.createTable("cart", (table) => {
+    table.increments("id");
+    table.integer("user_id").references("id").inTable("users");
+    table.integer("meal_id").references("id").inTable("meals");
+  });
 
-exports.down = knex => knex.schema.dropTable("cart");
+exports.down = (knex) => knex.schema.dropTable("cart");
