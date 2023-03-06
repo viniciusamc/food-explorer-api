@@ -1,4 +1,4 @@
-class CartController {
+class FavoritesController {
   async create(req, res) {
     const { id } = req.params;
 
@@ -6,4 +6,4 @@ class CartController {
   }
 }
 
-module.exports = CartController;
+module.exports = FavoritesController;
