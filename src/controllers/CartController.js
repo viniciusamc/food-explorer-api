@@ -13,6 +13,18 @@ class CartController {
 
     return res.status(201).json({ id });
   }
+
+  async delete(req, res) {
+    const { user_id, meal_id } = req.body;
+
+    if (!user_id || !meal_id) {
+      throw new AppError("Id Not Found");
+    }
+
+    await knex("cart").delete().where({ user_id, meal_id });
+
+    return res.status(200).json("Deleted with success");
+  }
 }
 
 module.exports = CartController;
