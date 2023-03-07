@@ -25,6 +25,14 @@ class CartController {
 
     return res.status(200).json("Deleted with success");
   }
+
+  async index(req, res) {
+    const { id } = req.params;
+
+    const cart = await knex("cart").where({ user_id: id });
+
+    return res.status(200).json({ cart });
+  }
 }
 
 module.exports = CartController;
