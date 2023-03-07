@@ -25,6 +25,18 @@ class FavoritesController {
 
     return res.status(200).json("Deleted with success");
   }
+
+  async index(req, res) {
+    const { id } = req.params;
+
+    if (!id) {
+      throw new AppError("Id Not Found");
+    }
+
+    const favorites = await knex("favorites").where({ user_id: id });
+
+    return res.status(200).json({ favorites });
+  }
 }
 
 module.exports = FavoritesController;
