@@ -7,5 +7,6 @@ const FavoritesController = require("../controllers/FavoritesController");
 const favoritesController = new FavoritesController();
 
 favRoutes.post("/", favoritesController.create);
+favRoutes.delete("/", favoritesController.delete);
 
 module.exports = favRoutes;
