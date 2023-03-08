@@ -33,9 +33,18 @@ class FavoritesController {
       throw new AppError("Id Not Found");
     }
 
-    const favorites = await knex("favorites").where({ user_id: id });
+    const favorites = await knex("favorites")
+      .where({ user_id: id })
+      .select("meal_id");
+    const favoriteIds = await Promise.all(
+      favorites.map((favorite) =>
+        knex("meals").select().where({ id: favorite.meal_id })
+      )
+    );
+    return res.status(200).json({ favoriteIds });
 
-    return res.status(200).json({ favorites });
+    // const list = await knex("meals").select({ id: favorites.meal_id });
+    // const list = await knex("meals").whereIn();
   }
 }
 
