@@ -11,7 +11,7 @@ class FavoritesController {
 
     await knex("favorites").insert({ user_id: id, meal_id });
 
-    return res.status(201).json({ id });
+    return res.status(201).json("Created with success");
   }
 
   async delete(req, res) {
@@ -42,9 +42,6 @@ class FavoritesController {
       )
     );
     return res.status(200).json({ favoriteIds });
-
-    // const list = await knex("meals").select({ id: favorites.meal_id });
-    // const list = await knex("meals").whereIn();
   }
 }
 

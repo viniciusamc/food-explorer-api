@@ -29,9 +29,17 @@ class CartController {
   async index(req, res) {
     const { id } = req.params;
 
-    const cart = await knex("cart").where({ user_id: id });
+    if (!id) {
+      throw new AppError("Id Not Found");
+    }
 
-    return res.status(200).json({ cart });
+    const cart = await knex("cart").where({ user_id: id }).select("meal_id");
+    const cartIds = await Promise.all(
+      cart.map((cartItem) =>
+        knex("meals").select().where({ id: cartItem.meal_id })
+      )
+    );
+    return res.status(200).json({ cartIds });
   }
 }
 
