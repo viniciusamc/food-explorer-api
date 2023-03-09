@@ -68,15 +68,21 @@ class UserController {
 
     const passwordHash = await bcrypt.hash(newPassword, 10);
 
-    await knex("users")
-      .select()
-      .where({ email })
-      .update()
-      .where(passwordVerify, passwordHash);
+    await knex("users").select().where({ email }).update();
 
     console.log(`${passwordVerify}`);
 
     res.status(201).json({ userVerify });
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+
+    const user = await knex("users").select().where({ id });
+    const favorites = await knex("favorites").select().where({ user_id: id });
+    const cart = await knex("cart").select().where({ user_id: id });
+
+    res.status(200).json({ user, favorites, cart });
   }
 }
 
