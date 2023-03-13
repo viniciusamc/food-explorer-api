@@ -6,12 +6,7 @@ const UserController = require("../controllers/UsersController");
 
 const userController = new UserController();
 
-function myMiddleware(req, res, next) {
-  const { admin } = req.body;
-  next();
-}
-
-usersRoutes.post("/", myMiddleware, userController.create);
-usersRoutes.get("/:id", myMiddleware, userController.show);
+usersRoutes.post("/", userController.create);
+usersRoutes.get("/:id", userController.show);
 
 module.exports = usersRoutes;

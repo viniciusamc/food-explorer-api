@@ -38,7 +38,12 @@ class UserController {
       throw new AppError("Endereço de e-mail inválido");
     }
 
-    await knex("users").insert({ name, email, password: passwordHash });
+    await knex("users").insert({
+      name,
+      email,
+      password: passwordHash,
+      admin: false,
+    });
 
     res.status(201).json({ name, email, password });
   }
