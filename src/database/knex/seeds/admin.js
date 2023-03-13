@@ -7,11 +7,11 @@ const PASSWORD_HASH = bcrypt.hashSync(PASSWORD, 12);
 exports.seed = async function (knex) {
   await knex("users").insert([
     {
-      id: 0,
+      id: 1,
       name: "admin",
       email: "admin@admin.com",
       password: PASSWORD_HASH,
-      admin: true,
+      role: "admin",
     },
   ]);
 };

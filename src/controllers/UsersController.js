@@ -42,7 +42,6 @@ class UserController {
       name,
       email,
       password: passwordHash,
-      admin: false,
     });
 
     res.status(201).json({ name, email, password });

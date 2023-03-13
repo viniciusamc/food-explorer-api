@@ -5,7 +5,7 @@ exports.up = (knex) =>
     table.text("email");
     table.text("password");
     table.text("history");
-    table.boolean("admin").defaultTo(false);
+    table.text("role").defaultTo("user");
   });
 
 exports.down = (knex) => knex.schema.dropTable("users");
