@@ -1,5 +1,7 @@
 const { Router } = require("express");
 
+const ensureAuthenticated = require("../middleware/ensureAuthenticated");
+
 const mealsRoutes = Router();
 
 const MealsController = require("../controllers/MealsController");
@@ -10,7 +12,7 @@ function myMiddleware(req, res, next) {
   next();
 }
 
-mealsRoutes.post("/", myMiddleware, mealController.create);
+mealsRoutes.post("/", ensureAuthenticated, mealController.create);
 mealsRoutes.get("/list:id", myMiddleware, mealController.get);
 mealsRoutes.delete("/:id", myMiddleware, mealController.delete);
 mealsRoutes.get("/list", myMiddleware, mealController.index);

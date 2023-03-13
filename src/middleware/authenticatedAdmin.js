@@ -10,6 +10,8 @@ async function authenticatedAdmin(req, res, next) {
     throw new AppError("Not Admin", 401);
   }
 
+  console.log("admin");
+
   next();
 }
 

@@ -6,6 +6,15 @@ class MealsController {
   async create(req, res) {
     const { name, desc, price, picture, ingredients } = req.body;
 
+    const user_id = req.user.id;
+    console.log(user_id);
+
+    const admin = await knex("users").where("id", user_id).first();
+
+    if (admin.admin == "admin") {
+      throw new AppError("User is not admin", 401);
+    }
+
     const priceVerify = new RegExp("^[0-9]+$");
 
     if (!name || !desc || !price || !picture || !ingredients) {
