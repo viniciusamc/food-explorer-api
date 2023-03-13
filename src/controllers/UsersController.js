@@ -43,38 +43,6 @@ class UserController {
     res.status(201).json({ name, email, password });
   }
 
-  async update(req, res) {
-    const { name, email, password, newPassword, confirmNewPassword } = req.body;
-
-    if (newPassword != confirmNewPassword) {
-      throw new AppError("Senha não confere", 401);
-    }
-
-    if (newPassword.length < 6) {
-      throw new AppError("A senha deve ter no mínimo 6 caracteres.");
-    }
-
-    const userVerify = await knex("users").select().where({ email }).first();
-
-    if (!userVerify) {
-      throw new AppError("Email/User não encontrado", 404);
-    }
-
-    const passwordVerify = await bcrypt.compare(password, userVerify.password);
-
-    if (!passwordVerify) {
-      throw new AppError("Senha não confere", 401);
-    }
-
-    const passwordHash = await bcrypt.hash(newPassword, 10);
-
-    await knex("users").select().where({ email }).update();
-
-    console.log(`${passwordVerify}`);
-
-    res.status(201).json({ userVerify });
-  }
-
   async show(req, res) {
     const { id } = req.params;
 
