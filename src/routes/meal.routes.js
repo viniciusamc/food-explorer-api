@@ -13,8 +13,8 @@ function myMiddleware(req, res, next) {
 }
 
 mealsRoutes.post("/", ensureAuthenticated, mealController.create);
-mealsRoutes.get("/list:id", myMiddleware, mealController.get);
-mealsRoutes.delete("/:id", myMiddleware, mealController.delete);
-mealsRoutes.get("/list", myMiddleware, mealController.index);
+mealsRoutes.get("/list:id", mealController.get);
+mealsRoutes.delete("/:id", ensureAuthenticated, mealController.delete);
+mealsRoutes.get("/list", mealController.index);
 
 module.exports = mealsRoutes;

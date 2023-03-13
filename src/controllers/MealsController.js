@@ -7,11 +7,10 @@ class MealsController {
     const { name, desc, price, picture, ingredients } = req.body;
 
     const user_id = req.user.id;
-    console.log(user_id);
 
     const admin = await knex("users").where("id", user_id).first();
 
-    if (admin.admin == "admin") {
+    if (admin.role != "admin") {
       throw new AppError("User is not admin", 401);
     }
 
@@ -54,6 +53,14 @@ class MealsController {
 
   async delete(req, res) {
     const { id } = req.params;
+
+    const user_id = req.user.id;
+
+    const admin = await knex("users").where("id", user_id).first();
+
+    if (admin.role != "admin") {
+      throw new AppError("User is not admin", 401);
+    }
 
     const { confirmDelete } = req.body;
 
