@@ -27,7 +27,7 @@ class CartController {
   }
 
   async index(req, res) {
-    const { id } = req.params;
+    const { id } = req.query;
     let cartCount = 0;
 
     if (!id) {
@@ -35,14 +35,15 @@ class CartController {
     }
 
     const cart = await knex("cart").where({ user_id: id }).select("meal_id");
-    const cartIds = await Promise.all(
-      cart.map((cartItem) => {
-        cartCount = +1;
-        console.log(cartCount);
-        knex("meals").select().where({ id: cartItem.meal_id });
-      })
-    );
-    return res.status(200).json({ cartIds });
+    const cartIds = [];
+
+    cart.forEach((cartItem) => {
+      cartIds.push(knex("meals").select().where({ id: cartItem.meal_id }));
+      cartCount++;
+    });
+
+    const itensCart = await Promise.all(cartIds);
+    return res.status(200).json({ itensCart, cartCount });
   }
 }
 

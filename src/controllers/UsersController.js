@@ -44,7 +44,7 @@ class UserController {
       password: passwordHash,
     });
 
-    res.status(201).json({ name, email, password });
+    res.status(201).json("Created with success");
   }
 
   async show(req, res) {
