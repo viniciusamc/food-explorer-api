@@ -27,7 +27,7 @@ class CartController {
   }
 
   async index(req, res) {
-    const { id } = req.query;
+    const { id } = req.params;
     let cartCount = 0;
 
     if (!id) {

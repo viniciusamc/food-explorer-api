@@ -41,7 +41,10 @@ class FavoritesController {
         knex("meals").select().where({ id: favorite.meal_id })
       )
     );
-    return res.status(200).json({ favoriteIds });
+
+    const favoritesCount = favorites.length;
+
+    return res.status(200).json({ favoriteIds, favoritesCount });
   }
 }
 

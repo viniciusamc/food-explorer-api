@@ -6,7 +6,7 @@ const { compare } = require("bcrypt");
 
 class SessionsController {
   async create(req, res) {
-    const { email, password, admin } = req.body;
+    const { email, password } = req.body;
 
     const user = await knex("users").where("email", email).first();
 
