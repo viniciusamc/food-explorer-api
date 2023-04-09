@@ -14,7 +14,8 @@ class MealsController {
       throw new AppError("User is not admin", 401);
     }
 
-    const priceVerify = new RegExp("^[0-9]+$");
+    const priceVerify =
+      /^\s*((?:[1-9]\d{0,2}(?:\.\d{3})*)|(?:0))(\.\d{1,2})?\s*$/;
 
     if (!name || !desc || !price || !picture || !ingredients) {
       throw new AppError("Preencha todos os campos corretamente");
