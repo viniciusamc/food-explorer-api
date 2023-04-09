@@ -5,6 +5,7 @@ const knex = require("../database/knex");
 class MealsController {
   async create(req, res) {
     const { name, desc, price, picture, ingredients } = req.body;
+    const mealPictureName = req.file;
 
     const user_id = req.user.id;
 
@@ -31,6 +32,12 @@ class MealsController {
       throw new AppError("Prato já existente.");
     }
 
+    const filename = await diskStorage.saveFile(mealPictureName);
+
+    const meal = await knex("meals")
+      .where({ id })
+      .update({ picture: filename });
+
     await knex("meals").insert({
       name,
       desc,
@@ -39,7 +46,7 @@ class MealsController {
       ingredients,
     });
 
-    res.status(201).json({ name, desc, price, picture, ingredients });
+    res.status(201).json({ name, desc, price, picture, ingredients, meal });
   }
 
   async get(req, res) {
