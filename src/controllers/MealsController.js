@@ -1,11 +1,15 @@
 const AppError = require("../utils/AppError");
-const sqliteConnection = require("../database/sqlite");
 const knex = require("../database/knex");
+const DiskStorage = require("../providers/DiskStorage");
 
 class MealsController {
   async create(req, res) {
-    const { name, desc, price, picture, ingredients } = req.body;
-    const mealPictureName = req.file;
+    const { name, desc, price, ingredients } = req.body;
+    const { filename: image } = req.file;
+
+    const diskStorage = new DiskStorage();
+
+    const filename = await diskStorage.saveFile(image);
 
     const user_id = req.user.id;
 
@@ -18,7 +22,7 @@ class MealsController {
     const priceVerify =
       /^\s*((?:[1-9]\d{0,2}(?:\.\d{3})*)|(?:0))(\.\d{1,2})?\s*$/;
 
-    if (!name || !desc || !price || !picture || !ingredients) {
+    if (!name || !desc || !price || !ingredients) {
       throw new AppError("Preencha todos os campos corretamente");
     }
 
@@ -32,17 +36,11 @@ class MealsController {
       throw new AppError("Prato já existente.");
     }
 
-    const filename = await diskStorage.saveFile(mealPictureName);
-
-    const meal = await knex("meals")
-      .where({ id })
-      .update({ picture: filename });
-
     await knex("meals").insert({
       name,
       desc,
+      filename,
       price,
-      picture,
       ingredients,
     });
 
