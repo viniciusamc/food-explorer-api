@@ -39,7 +39,7 @@ class MealsController {
     await knex("meals").insert({
       name,
       desc,
-      filename,
+      picture: filename,
       price,
       ingredients,
     });
@@ -51,10 +51,9 @@ class MealsController {
     const { id } = req.params;
 
     const list = await knex("meals").where("id", id);
+    console.log(list);
 
-    res.status(201).json({
-      list,
-    });
+    res.status(200).json({ list });
   }
 
   async delete(req, res) {
