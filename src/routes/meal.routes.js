@@ -18,6 +18,6 @@ mealsRoutes.post(
 );
 mealsRoutes.get("/list/:id", mealController.get);
 mealsRoutes.delete("/:id", ensureAuthenticated, mealController.delete);
-mealsRoutes.get("/list", mealController.index);
+mealsRoutes.get("/get", mealController.index);
 
 module.exports = mealsRoutes;

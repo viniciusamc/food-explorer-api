@@ -4,12 +4,12 @@ const DiskStorage = require("../providers/DiskStorage");
 
 class MealsController {
   async create(req, res) {
-    const { name, desc, price, ingredients } = req.body;
-    const { filename: image } = req.file;
+    const { name, desc, price, category, ingredients } = req.body;
+    const { filename: picture } = req.file;
 
     const diskStorage = new DiskStorage();
 
-    const filename = await diskStorage.saveFile(image);
+    const filename = await diskStorage.saveFile(picture);
 
     const user_id = req.user.id;
 
@@ -22,7 +22,7 @@ class MealsController {
     const priceVerify =
       /^\s*((?:[1-9]\d{0,2}(?:\.\d{3})*)|(?:0))(\.\d{1,2})?\s*$/;
 
-    if (!name || !desc || !price || !ingredients) {
+    if (!name || !desc || !price || !category || !ingredients) {
       throw new AppError("Preencha todos os campos corretamente");
     }
 
@@ -39,19 +39,19 @@ class MealsController {
     await knex("meals").insert({
       name,
       desc,
-      picture: filename,
+      picture,
       price,
+      category,
       ingredients,
     });
 
-    res.status(201).json({ name, desc, price, picture, ingredients, meal });
+    res.status(201).json({ name, desc, price, category, picture, ingredients });
   }
 
   async get(req, res) {
     const { id } = req.params;
 
     const list = await knex("meals").where("id", id);
-    console.log(list);
 
     res.status(200).json({ list });
   }
@@ -85,9 +85,26 @@ class MealsController {
   }
 
   async index(req, res) {
-    const getIndex = await knex.select("*").from("meals");
+    const { name, ingredients, category } = req.query;
 
-    res.status(200).json({ getIndex });
+    if (category) {
+      const meals = await knex("meals").where("category", category);
+      return res.status(200).json(meals);
+    }
+
+    if (ingredients) {
+      const filterIngredients = ingredients
+        .split(",")
+        .map((ingredient) => ingredient.trim());
+
+      const meals = await knex("meals")
+        .whereLike("ingredients", `%${filterIngredients}%`)
+        .groupBy("id");
+      return res.status(200).json(meals);
+    } else {
+      const meals = await knex("meals").whereLike("name", `%${name}%`);
+      return res.status(200).json(meals);
+    }
   }
 }
 
