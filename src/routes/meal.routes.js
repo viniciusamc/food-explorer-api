@@ -16,8 +16,8 @@ mealsRoutes.post(
   upload.single("image"),
   mealController.create
 );
-mealsRoutes.get("/list/:id", mealController.get);
+mealsRoutes.get("/details/:id", mealController.get);
 mealsRoutes.delete("/:id", ensureAuthenticated, mealController.delete);
-mealsRoutes.get("/get", mealController.index);
+mealsRoutes.get("/", mealController.index);
 
 module.exports = mealsRoutes;

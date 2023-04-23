@@ -45,15 +45,16 @@ class MealsController {
       ingredients,
     });
 
-    res.status(201).json({ name, desc, price, category, picture, ingredients });
+    res.status(201).json("Prato criado com sucesso!");
   }
 
   async get(req, res) {
     const { id } = req.params;
 
-    const list = await knex("meals").where("id", id);
+    const meal = await knex("meals").where("id", id).first();
+    meal.ingredients = meal.ingredients.split(" ");
 
-    res.status(200).json({ list });
+    res.status(200).json(meal);
   }
 
   async delete(req, res) {
@@ -66,8 +67,6 @@ class MealsController {
     if (admin.role != "admin") {
       throw new AppError("User is not admin", 401);
     }
-
-    const { confirmDelete } = req.body;
 
     if (!confirmDelete) {
       throw new AppError("Confirme primeiro!");
