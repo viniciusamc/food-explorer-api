@@ -10,12 +10,7 @@ const multer = require("multer");
 const uploadConfig = require("../configs/upload");
 const upload = multer(uploadConfig.MULTER);
 
-mealsRoutes.post(
-  "/",
-  ensureAuthenticated,
-  upload.single("image"),
-  mealController.create
-);
+mealsRoutes.post("/", upload.single("image"), mealController.create);
 mealsRoutes.get("/details/:id", mealController.get);
 mealsRoutes.delete("/:id", ensureAuthenticated, mealController.delete);
 mealsRoutes.get("/", mealController.index);

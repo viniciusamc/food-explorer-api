@@ -4,14 +4,12 @@ const DiskStorage = require("../providers/DiskStorage");
 
 class MealsController {
   async create(req, res) {
-    const { name, desc, price, category, ingredients } = req.body;
+    const { name, desc, price, category, ingredients, user_id } = req.body;
     const { filename: picture } = req.file;
 
     const diskStorage = new DiskStorage();
 
     const filename = await diskStorage.saveFile(picture);
-
-    const user_id = req.user.id;
 
     const admin = await knex("users").where("id", user_id).first();
 
@@ -19,16 +17,13 @@ class MealsController {
       throw new AppError("User is not admin", 401);
     }
 
-    const priceVerify =
-      /^\s*((?:[1-9]\d{0,2}(?:\.\d{3})*)|(?:0))(\.\d{1,2})?\s*$/;
-
     if (!name || !desc || !price || !category || !ingredients) {
       throw new AppError("Preencha todos os campos corretamente");
     }
 
-    if (!priceVerify.test(price)) {
-      throw new AppError("Apenas números no preço!");
-    }
+    // if (!priceVerify.test(price)) {
+    //   throw new AppError("Apenas números no preço!");
+    // }
 
     const checkMeal = await knex("meals").where("name", name).first();
 
