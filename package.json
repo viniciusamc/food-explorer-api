@@ -5,7 +5,7 @@
     "dev": "nodemon ./src/server.js",
     "migrate": "knex migrate:latest",
     "test": "jest",
-    "resdb": "knex migrate:rollback && knex migrate:latest && knex seed:run;"
+    "seed": "knex migrate:rollback && knex migrate:latest && knex seed:run;"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
