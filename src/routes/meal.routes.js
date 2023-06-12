@@ -12,7 +12,7 @@ const upload = multer(uploadConfig.MULTER);
 
 mealsRoutes.post("/", upload.single("image"), mealController.create);
 mealsRoutes.get("/details/:id", mealController.get);
-mealsRoutes.delete("/:id", ensureAuthenticated, mealController.delete);
+mealsRoutes.delete("/:id", mealController.delete);
 mealsRoutes.get("/", mealController.index);
 mealsRoutes.put("/:id", upload.single("image"), mealController.update);
 

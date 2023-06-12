@@ -36,7 +36,6 @@ class MealsController {
     let ingredientsVerify = ingredients.replace(/[\[\]"]/g, "");
     ingredientsVerify = ingredientsVerify.replace(/,/g, " ");
 
-    console.log(ingredientsVerify);
     await knex("meals").insert({
       name,
       desc,
@@ -60,18 +59,6 @@ class MealsController {
 
   async delete(req, res) {
     const { id } = req.params;
-
-    const user_id = req.user.id;
-
-    const admin = await knex("users").where("id", user_id).first();
-
-    if (admin.role != "admin") {
-      throw new AppError("User is not admin", 401);
-    }
-
-    if (!confirmDelete) {
-      throw new AppError("Confirme primeiro!");
-    }
 
     const getIdMeal = await knex("meals").where("id", id).first();
 
@@ -126,11 +113,13 @@ class MealsController {
       savedImage = await diskStorage.saveFile(picture);
     }
 
+    let ingredientsVerify = ingredients.replace(/[\[\]"]/g, "");
+    ingredientsVerify = ingredientsVerify.replace(/,/g, " ");
+
     meal.name = name ?? meal.name;
     meal.desc = desc ?? meal.desc;
     meal.price = price ?? meal.price;
     meal.category = category ?? meal.category;
-    meal.ingredients = ingredients ?? meal.ingredients;
     meal.picture = savedImage;
 
     await knex("meals").where("id", id).first().update({
@@ -138,7 +127,7 @@ class MealsController {
       desc: meal.desc,
       price: meal.price,
       category: meal.category,
-      ingredients: meal.ingredients,
+      ingredients: ingredientsVerify,
       picture: meal.picture,
     });
 
