@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
+require("dotenv/config");
 
-const PASSWORD = "123456";
-
-const PASSWORD_HASH = bcrypt.hashSync(PASSWORD, 12);
+const PASSWORD_HASH = bcrypt.hashSync(process.env.ADMIN_PASSWORD, 12);
+console.log(process.env.ADMIN_PASSWORD);
 
 exports.seed = async function (knex) {
   await knex("users").insert([
