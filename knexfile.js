@@ -2,10 +2,9 @@ const path = require("path");
 
 module.exports = {
   development: {
-    client: "postgresql",
+    client: "sqlite3",
     connection: {
-      connectionString: `${process.env.DB_CONNECT}`,
-      ssl: true,
+        filename: path.resolve(__dirname, "src", "database", "database.db")
     },
     pool: {
       min: 2,
